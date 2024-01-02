@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -14,15 +15,28 @@ class BleSetup extends StatefulWidget {
 
 class _BleSetupState extends State<BleSetup> {
   static const menuItems = <String>["Scan BLE Devices"];
+  StreamController? controller;
+  bool _isDisposed = false;
 
   @override
   void dispose() {
+    _isDisposed = true;
+
+    if ((!controller!.isClosed) && (!_isDisposed == true)) {
+      controller!.close();
+    }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final bLEProvider = Provider.of<BLEProvider>(context, listen: true);
+    controller = StreamController();
+    if (controller!.isClosed) {
+      controller!.addStream(bLEProvider.getDiscoveredDeviceController.stream);
+    }
+
+    if (_isDisposed) return Container();
 
     final List<PopupMenuItem<String>> _popUpMenuItems = menuItems
         .map((String value) => PopupMenuItem<String>(
@@ -61,7 +75,9 @@ class _BleSetupState extends State<BleSetup> {
           children: [
             Expanded(
               child: StreamBuilder<List<DiscoveredDevice>?>(
-                  stream: bLEProvider.getDiscoveredDeviceController.stream,
+                  stream: (!controller!.isClosed)
+                      ? bLEProvider.getDiscoveredDeviceController.stream
+                      : null,
                   builder: ((context, snapshot) {
                     List<DiscoveredDevice>? scannedDevices = snapshot.data;
                     if (scannedDevices != null) {

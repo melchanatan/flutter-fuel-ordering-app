@@ -42,8 +42,7 @@ class _BufferState extends State<Buffer> {
                     image: AssetImage("lib/images/line-graphic.png"),
                     fit: BoxFit.cover)),
             child: const SafeArea(
-              child: Expanded(
-                  child: Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -65,7 +64,7 @@ class _BufferState extends State<Buffer> {
                     size: 400.0,
                   ),
                 ],
-              )),
+              ),
             )),
       ),
     );

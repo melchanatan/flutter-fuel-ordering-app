@@ -308,7 +308,7 @@ class _FuelingState extends State<Fueling> {
                     decoration: BoxDecoration(
                       gradient: AppColor.glassGradientLight,
                     ),
-                    child: Expanded(
+                    child: Container(
                       child: Marquee(
                         text: '     กรุณาอย่าเคลื่อนรถ ขณะให้บริการ    ⚠️',
                         style: TextStyle(
